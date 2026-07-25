@@ -1,42 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Broadcast Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Broadcast Dashboard</title>
 
-    <style>
-        html, body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: black;
-        }
+<style>
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+}
 
-        iframe {
-            border: none;
-            width: 100%;
-            height: 100%;
-        }
-    </style>
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+</style>
+
 </head>
-
 <body>
 
-<iframe id="display"></iframe>
+<iframe
+    id="weather"
+    class="page active"
+    src="https://ws4kp.onrender.com">
+</iframe>
+
+<iframe
+    id="crew"
+    class="page"
+    src="https://example.com">
+</iframe>
 
 <script>
+
 const pages = [
-  {
-    url: "https://ws4kp.onrender.com",
-    duration: 60000
-  }
+    {
+        element: document.getElementById("weather"),
+        duration: 60000
+    },
+    {
+        element: document.getElementById("crew"),
+        duration: 60000
+    }
 ];
 
-const frame = document.getElementById("display");
+let current = 0;
 
-frame.src = pages[0].url;
+function rotatePages() {
+
+    pages[current].element.classList.remove("active");
+
+    current++;
+
+    if (current >= pages.length) {
+        current = 0;
+    }
+
+    pages[current].element.classList.add("active");
+
+    setTimeout(rotatePages, pages[current].duration);
+
+}
+
+setTimeout(rotatePages, pages[current].duration);
 
 </script>
 
