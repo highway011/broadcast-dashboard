@@ -49,18 +49,22 @@ html, body {
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 
-const weatherTime = 6000; // 60 seconds
-const crewTime = 6000;    // 60 seconds
+const weatherTime = 6000;
+const crewTime = 6000;
 
 let showingWeather = true;
+let rotationStarted = false;
 
+let holdTimer = null;
+
+// Switch pages
 function rotate() {
 
-    if (showingWeather) {
+    if (!rotationStarted) return;
 
+    if (showingWeather) {
         weather.classList.remove("active");
         crew.classList.add("active");
-
         showingWeather = false;
 
         setTimeout(rotate, crewTime);
@@ -69,7 +73,6 @@ function rotate() {
 
         crew.classList.remove("active");
         weather.classList.add("active");
-
         showingWeather = true;
 
         setTimeout(rotate, weatherTime);
@@ -78,7 +81,43 @@ function rotate() {
 
 }
 
-setTimeout(rotate, weatherTime);
+// Start rotation after hold
+function startRotation() {
+
+    if (rotationStarted) return;
+
+    rotationStarted = true;
+
+    console.log("Rotation Started");
+
+    rotate();
+
+}
+
+// Begin timing when OK/Enter is pressed
+document.addEventListener("keydown", (e) => {
+
+    if (e.key === "Enter" && !rotationStarted && holdTimer === null) {
+
+        console.log("Holding OK...");
+
+        holdTimer = setTimeout(startRotation, 3000);
+
+    }
+
+});
+
+// Cancel if released too soon
+document.addEventListener("keyup", (e) => {
+
+    if (e.key === "Enter") {
+
+        clearTimeout(holdTimer);
+        holdTimer = null;
+
+    }
+
+});
 
 </script>
 
