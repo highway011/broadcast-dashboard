@@ -46,36 +46,39 @@ html, body {
 
 <script>
 
-const pages = [
-    {
-        element: document.getElementById("weather"),
-        duration: 60000
-    },
-    {
-        element: document.getElementById("crew"),
-        duration: 60000
+const weather = document.getElementById("weather");
+const crew = document.getElementById("crew");
+
+const weatherTime = 6000; // 60 seconds
+const crewTime = 6000;    // 60 seconds
+
+let showingWeather = true;
+
+function rotate() {
+
+    if (showingWeather) {
+
+        weather.classList.remove("active");
+        crew.classList.add("active");
+
+        showingWeather = false;
+
+        setTimeout(rotate, crewTime);
+
+    } else {
+
+        crew.classList.remove("active");
+        weather.classList.add("active");
+
+        showingWeather = true;
+
+        setTimeout(rotate, weatherTime);
+
     }
-];
-
-let current = 0;
-
-function rotatePages() {
-
-    pages[current].element.classList.remove("active");
-
-    current++;
-
-    if (current >= pages.length) {
-        current = 0;
-    }
-
-    pages[current].element.classList.add("active");
-
-    setTimeout(rotatePages, pages[current].duration);
 
 }
 
-setTimeout(rotatePages, pages[current].duration);
+setTimeout(rotate, weatherTime);
 
 </script>
 
