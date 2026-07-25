@@ -1,29 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Adam's TV Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broadcast Dashboard</title>
 
     <style>
-        body{
-            background:#111;
-            color:white;
-            font-family:Arial;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            height:100vh;
-            margin:0;
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: black;
         }
 
-        h1{
-            font-size:64px;
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 
 <body>
 
-<h1>Hello Adam! 🎥</h1>
+<iframe id="display"></iframe>
+
+<script>
+const pages = [
+    {
+        url: "https://example.com",
+        duration: 60000
+    }
+];
+
+const frame = document.getElementById("display");
+
+frame.src = pages[0].url;
+
+</script>
 
 </body>
 </html>
