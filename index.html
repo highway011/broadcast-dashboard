@@ -44,82 +44,45 @@ html, body {
     src="https://example.com">
 </iframe>
 
-<script>
-
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 
-const weatherTime = 6000;
-const crewTime = 6000;
+const firstWeatherTime = 120000; // 2 minutes
+const normalTime = 60000;        // 1 minute
 
 let showingWeather = true;
-let rotationStarted = false;
+let firstWeather = true;
 
-let holdTimer = null;
-
-// Switch pages
 function rotate() {
 
-    if (!rotationStarted) return;
-
     if (showingWeather) {
+
+        // Weather -> Crew
         weather.classList.remove("active");
         crew.classList.add("active");
         showingWeather = false;
 
-        setTimeout(rotate, crewTime);
+        setTimeout(rotate, normalTime);
 
     } else {
 
+        // Crew -> Weather
         crew.classList.remove("active");
         weather.classList.add("active");
         showingWeather = true;
 
-        setTimeout(rotate, weatherTime);
+        if (firstWeather) {
+            firstWeather = false;
+            setTimeout(rotate, firstWeatherTime);
+        } else {
+            setTimeout(rotate, normalTime);
+        }
 
     }
 
 }
 
-// Start rotation after hold
-function startRotation() {
-
-    if (rotationStarted) return;
-
-    rotationStarted = true;
-
-    console.log("Rotation Started");
-
-    rotate();
-
-}
-
-// Begin timing when OK/Enter is pressed
-document.addEventListener("keydown", (e) => {
-
-    if (e.key === "Enter" && !rotationStarted && holdTimer === null) {
-
-        console.log("Holding OK...");
-
-        holdTimer = setTimeout(startRotation, 3000);
-
-    }
-
-});
-
-// Cancel if released too soon
-document.addEventListener("keyup", (e) => {
-
-    if (e.key === "Enter") {
-
-        clearTimeout(holdTimer);
-        holdTimer = null;
-
-    }
-
-});
-
-</script>
-
+// Initial weather page stays up for 2 minutes
+setTimeout(rotate, firstWeatherTime);
 </body>
 </html>
