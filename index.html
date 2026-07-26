@@ -3,10 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Broadcast Dashboard</title>
 
 <style>
-html, body {
+html,
+body {
     margin: 0;
     width: 100%;
     height: 100%;
@@ -28,8 +30,8 @@ html, body {
     display: block;
 }
 </style>
-
 </head>
+
 <body>
 
 <iframe
@@ -44,45 +46,35 @@ html, body {
     src="https://example.com">
 </iframe>
 
+<script>
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 
-const firstWeatherTime = 120000; // 2 minutes
-const normalTime = 60000;        // 1 minute
+const firstWeatherTime = 120000; // Initial weather: 2 minutes
+const normalTime = 60000;        // Every page afterward: 1 minute
 
 let showingWeather = true;
-let firstWeather = true;
 
 function rotate() {
-
     if (showingWeather) {
-
-        // Weather -> Crew
+        // Weather to crew
         weather.classList.remove("active");
         crew.classList.add("active");
         showingWeather = false;
-
-        setTimeout(rotate, normalTime);
-
     } else {
-
-        // Crew -> Weather
+        // Crew to weather
         crew.classList.remove("active");
         weather.classList.add("active");
         showingWeather = true;
-
-        if (firstWeather) {
-            firstWeather = false;
-            setTimeout(rotate, firstWeatherTime);
-        } else {
-            setTimeout(rotate, normalTime);
-        }
-
     }
 
+    // Every rotation after startup lasts one minute
+    setTimeout(rotate, normalTime);
 }
 
-// Initial weather page stays up for 2 minutes
+// Only the first weather appearance lasts two minutes
 setTimeout(rotate, firstWeatherTime);
+</script>
+
 </body>
 </html>
