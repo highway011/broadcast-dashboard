@@ -23,11 +23,15 @@ body {
     width: 100%;
     height: 100%;
     border: none;
-    display: none;
+
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+
+    pointer-events: none;
 }
 
 .page.active {
-    display: block;
+    opacity: 1;
 }
 </style>
 </head>
@@ -56,23 +60,20 @@ const normalTime = 60000;        // Every page afterward: 1 minute
 let showingWeather = true;
 
 function rotate() {
+
     if (showingWeather) {
-        // Weather to crew
         weather.classList.remove("active");
         crew.classList.add("active");
-        showingWeather = false;
     } else {
-        // Crew to weather
         crew.classList.remove("active");
         weather.classList.add("active");
-        showingWeather = true;
     }
 
-    // Every rotation after startup lasts one minute
+    showingWeather = !showingWeather;
+
     setTimeout(rotate, normalTime);
 }
-
-// Only the first weather appearance lasts two minutes
+    // First weather display lasts two minutes
 setTimeout(rotate, firstWeatherTime);
 </script>
 
