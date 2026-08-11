@@ -35,6 +35,16 @@ body {
     z-index: 2;
     pointer-events: auto;
 }
+
+#schedule {
+    background: black;
+}
+
+#schedule img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 </style>
 </head>
 
@@ -52,30 +62,54 @@ body {
     src="https://broadcaststaff.com/eventCrewListTodayMSST.php">
 </iframe>
 
+<div
+    id="schedule"
+    class="page">
+    <img src="schedule.png" alt="Schedule">
+</div>
+
 <script>
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
+const schedule = document.getElementById("schedule");
 
-const firstWeatherTime = 5000; // Initial weather: 2 minutes
-const normalTime = 5000;        // Every page afterward: 1 minute
+const firstWeatherTime = 10000; // Initial weather: 2 minutes
+const normalTime = 10000;        // Weather/Crew: 1 minute
+const scheduleTime = 10000;      // Schedule: 30 seconds
 
-let showingWeather = true;
+let currentPage = "weather";
 
 function rotate() {
 
-    if (showingWeather) {
+    if (currentPage === "weather") {
         weather.classList.remove("active");
         crew.classList.add("active");
-    } else {
-        crew.classList.remove("active");
-        weather.classList.add("active");
+
+        currentPage = "crew";
+
+        setTimeout(rotate, normalTime);
     }
 
-    showingWeather = !showingWeather;
+    else if (currentPage === "crew") {
+        crew.classList.remove("active");
+        schedule.classList.add("active");
 
-    setTimeout(rotate, normalTime);
+        currentPage = "schedule";
+
+        setTimeout(rotate, scheduleTime);
+    }
+
+    else {
+        schedule.classList.remove("active");
+        weather.classList.add("active");
+
+        currentPage = "weather";
+
+        setTimeout(rotate, normalTime);
+    }
 }
-    // First weather display lasts two minutes
+
+// First weather display lasts two minutes
 setTimeout(rotate, firstWeatherTime);
 </script>
 
