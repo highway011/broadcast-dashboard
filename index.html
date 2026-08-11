@@ -47,7 +47,7 @@ body {
 
 <body>
 
-<h1 style="color:red;position:absolute;z-index:999999;">NEW VERSIONS</h1>
+<h1 style="color:red;position:absolute;z-index:999999;">NEW VERSION FINAL</h1>
 
 <iframe
     id="weather"
@@ -72,9 +72,10 @@ const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 const schedule = document.getElementById("schedule");
 
-const firstWeatherTime = 5000; // Test: 5 seconds
-const normalTime = 5000;       // Test: 5 seconds
-const scheduleTime = 5000;     // Test: 5 seconds
+const firstWeatherTime = 60000;  // Initial weather: 1 minute
+const normalTime = 60000;        // Crew: 1 minute
+const scheduleTime = 35000;      // Schedule: 35 seconds
+const weatherReturnTime = 30000; // Weather after schedule: 30 seconds
 
 let currentPage = "weather";
 
@@ -105,11 +106,11 @@ function rotate() {
 
         currentPage = "weather";
 
-        setTimeout(rotate, normalTime);
+        setTimeout(rotate, weatherReturnTime);
     }
 }
 
-// First weather display lasts two minutes
+// First weather display lasts one minute
 setTimeout(rotate, firstWeatherTime);
 </script>
 
