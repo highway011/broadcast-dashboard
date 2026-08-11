@@ -37,13 +37,8 @@ body {
 }
 
 #schedule {
-    background: black;
-}
-
-#schedule img {
-    width: 100%;
-    height: 100%;
     object-fit: contain;
+    background: black;
 }
 </style>
 </head>
@@ -62,44 +57,45 @@ body {
     src="https://broadcaststaff.com/eventCrewListTodayMSST.php">
 </iframe>
 
-<div
+<img
     id="schedule"
-    class="page">
-    <img src="schedule.png" alt="Schedule">
-</div>
+    class="page"
+    src="schedule.png"
+    alt="Schedule">
 
 <script>
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 const schedule = document.getElementById("schedule");
 
-const firstWeatherTime = 10000; // Initial weather: 2 minutes
-const normalTime = 10000;        // Weather/Crew: 1 minute
-const scheduleTime = 10000;      // Schedule: 30 seconds
+const firstWeatherTime = 5000; // Initial weather: 2 minutes
+const normalTime = 5000;        // Weather and crew: 1 minute
+const scheduleTime = 5000;      // Schedule: 30 seconds
 
 let currentPage = "weather";
 
 function rotate() {
 
     if (currentPage === "weather") {
+
         weather.classList.remove("active");
         crew.classList.add("active");
 
         currentPage = "crew";
 
         setTimeout(rotate, normalTime);
-    }
 
-    else if (currentPage === "crew") {
+    } else if (currentPage === "crew") {
+
         crew.classList.remove("active");
         schedule.classList.add("active");
 
         currentPage = "schedule";
 
         setTimeout(rotate, scheduleTime);
-    }
 
-    else {
+    } else {
+
         schedule.classList.remove("active");
         weather.classList.add("active");
 
