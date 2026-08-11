@@ -35,6 +35,76 @@ body {
     z-index: 2;
     pointer-events: auto;
 }
+
+#schedule img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+</style>
+</head>
+
+<body>
+
+<iframe
+    id="weather"
+    class="page active"
+    src="https://ws4kp.onrender.com">
+</iframe>
+
+<iframe
+    id="crew"
+    class="page"
+    src="https://broadcaststaff.com/eventCrewListTodayMSST.php">
+</iframe>
+
+<div
+    id="schedule"
+    class="page">
+    <img src="schedule.png" alt="Schedule">
+</div>
+
+<script>
+const weather = document.getElementById("weather");
+const crew = document.getElementById("crew");
+const schedule = document.getElementById("schedule");
+
+const firstWeatherTime = 120000; // Initial weather: 2 minutes
+const normalTime = 60000;        // Every page afterward: 1 minute
+const scheduleTime = 30000;      // Schedule: 30 seconds
+
+let showingWeather = true;
+let showingCrew = false;
+
+function rotate() {
+
+    if (showingWeather) {
+        weather.classList.remove("active");
+        crew.classList.add("active");
+        showingWeather = false;
+        showingCrew = true;
+
+        setTimeout(rotate, normalTime);
+    } else if (showingCrew) {
+        crew.classList.remove("active");
+        schedule.classList.add("active");
+        showingCrew = false;
+
+        setTimeout(rotate, scheduleTime);
+    } else {
+        schedule.classList.remove("active");
+        weather.classList.add("active");
+        showingWeather = true;
+
+        setTimeout(rotate, normalTime);
+    }
+}
+    // First weather display lasts two minutes
+setTimeout(rotate, firstWeatherTime);
+</script>
+
+</body>
+</html>}
 </style>
 </head>
 
