@@ -19,6 +19,8 @@ body {
 .page {
     position: absolute;
     inset: 0;
+    width: 100%;
+    height: 100%;
     border: none;
 
     opacity: 0;
@@ -32,19 +34,6 @@ body {
     opacity: 1;
     z-index: 2;
     pointer-events: auto;
-}
-
-.schedule-page {
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.schedule-page img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
 }
 </style>
 </head>
@@ -63,55 +52,31 @@ body {
     src="https://broadcaststaff.com/eventCrewListTodayMSST.php">
 </iframe>
 
-<div id="schedule" class="page schedule-page">
-    <img src="schedule.png" alt="Schedule">
-</div>
-
 <script>
-const slides = [
-    {
-        id: "weather",
-        duration: 5000 // first weather: 2 minutes
-    },
-    {
-        id: "crew",
-        duration: 5000 // crew: 1 minute
-    },
-    {
-        id: "schedule",
-        duration: 5000 // schedule PNG: 30 seconds
-    },
-    {
-        id: "weather",
-        duration: 5000 // normal weather after first time: 1 minute
-    }
-];
+const weather = document.getElementById("weather");
+const crew = document.getElementById("crew");
 
-let currentSlide = 0;
+const firstWeatherTime = 120000; // Initial weather: 2 minutes
+const normalTime = 60000;        // Every page afterward: 1 minute
 
-function showSlide(index) {
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
-
-    document.getElementById(slides[index].id).classList.add("active");
-}
+let showingWeather = true;
 
 function rotate() {
-    currentSlide++;
 
-    if (currentSlide >= slides.length) {
-        currentSlide = 1; 
-        // skips the 2-minute weather after startup
-        // goes back to crew, schedule, normal weather loop
+    if (showingWeather) {
+        weather.classList.remove("active");
+        crew.classList.add("active");
+    } else {
+        crew.classList.remove("active");
+        weather.classList.add("active");
     }
 
-    showSlide(currentSlide);
+    showingWeather = !showingWeather;
 
-    setTimeout(rotate, slides[currentSlide].duration);
+    setTimeout(rotate, normalTime);
 }
-
-setTimeout(rotate, slides[currentSlide].duration);
+    // First weather display lasts two minutes
+setTimeout(rotate, firstWeatherTime);
 </script>
 
 </body>
