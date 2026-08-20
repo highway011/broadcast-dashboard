@@ -42,6 +42,11 @@ body {
     box-sizing: border-box;
     padding: 60px;
 }
+
+#map {
+    background: black;
+    object-fit: contain;
+}
 </style>
 </head>
 
@@ -67,14 +72,22 @@ body {
     src="Schedule.png"
     alt="Schedule">
 
+<img
+    id="map"
+    class="page"
+    src="map.png"
+    alt="Map">
+
 <script>
 const weather = document.getElementById("weather");
 const crew = document.getElementById("crew");
 const schedule = document.getElementById("schedule");
+const map = document.getElementById("map");
 
 const firstWeatherTime = 30000;  // Initial weather: 1 minute
 const normalTime = 35000;        // Crew: 1 minute
 const scheduleTime = 25000;      // Schedule: 35 seconds
+const mapTime = 10000;           // Map: 10 seconds
 const weatherReturnTime = 15000; // Weather after schedule: 30 seconds
 
 let currentPage = "weather";
@@ -99,9 +112,18 @@ function rotate() {
 
         setTimeout(rotate, scheduleTime);
 
-    } else {
+    } else if (currentPage === "schedule") {
 
         schedule.classList.remove("active");
+        map.classList.add("active");
+
+        currentPage = "map";
+
+        setTimeout(rotate, mapTime);
+
+    } else {
+
+        map.classList.remove("active");
         weather.classList.add("active");
 
         currentPage = "weather";
